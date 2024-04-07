@@ -7,19 +7,18 @@ import android.widget.ArrayAdapter
 import android.widget.FrameLayout
 import androidx.appcompat.widget.ListPopupWindow
 import androidx.core.content.ContextCompat
+import com.example.listpopupwindow.MyModel
 
 class CustomListPopupWindowBuilder(private val context: Context) {
 
-    private var list: List<String> = emptyList()
+    private var list: List<MyModel> = emptyList()
     private var anchor: View? = null
     private var backgroundDrawableRes: Int = 0
     private var horizontalOffsetValue: Int = 0
     private var verticalOffsetValue: Int = 0
-    private var itemClickListener: AdapterView.OnItemClickListener? = null
-    private var adapter: ArrayAdapter<String>? = null
-    private var selectedItem: Int = 0
+    private var adapter: ArrayAdapter<MyModel>? = null
 
-    fun setList(list: List<String>) = apply { this.list = list }
+    fun setList(list: List<MyModel>) = apply { this.list = list }
     fun setAnchor(anchor: View) = apply { this.anchor = anchor }
     fun setBackgroundDrawableRes(backgroundDrawableRes: Int) =
         apply { this.backgroundDrawableRes = backgroundDrawableRes }
@@ -30,14 +29,7 @@ class CustomListPopupWindowBuilder(private val context: Context) {
     fun setVerticalOffset(verticalOffsetValue: Int) =
         apply { this.verticalOffsetValue = verticalOffsetValue }
 
-    fun setOnItemClickListener(itemClickListener: AdapterView.OnItemClickListener?) =
-        apply {
-            this.itemClickListener = itemClickListener
-
-        }
-
-    fun setAdapter(adapter: ArrayAdapter<String>) = apply { this.adapter = adapter }
-    fun setSelectedItem(id: Int) = apply { this.selectedItem = id }
+    fun setAdapter(adapter: ArrayAdapter<MyModel>) = apply { this.adapter = adapter }
 
     fun build(): ListPopupWindow {
         val listPopupWindow = ListPopupWindow(context)
@@ -57,14 +49,14 @@ class CustomListPopupWindowBuilder(private val context: Context) {
             )
         }
 
-        if (itemClickListener != null) {
-            listPopupWindow.setOnItemClickListener(itemClickListener)
-        }
+//        if (itemClickListener != null) {
+//            listPopupWindow.setOnItemClickListener(itemClickListener)
+//        }
 
         return listPopupWindow
     }
 
-    private fun measureContentWidth(adapter: ArrayAdapter<String>?): Int {
+    private fun measureContentWidth(adapter: ArrayAdapter<MyModel>?): Int {
         adapter ?: return 0
         val measureParentViewGroup = FrameLayout(context)
         var itemView: View? = null

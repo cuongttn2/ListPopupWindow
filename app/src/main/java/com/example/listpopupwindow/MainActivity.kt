@@ -1,11 +1,9 @@
 package com.example.listpopupwindow
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.ListPopupWindow
 import com.example.listpopupwindow.databinding.ActivityMainBinding
-import com.nomnom.popupwindow.CustomArrayAdapter
 import com.nomnom.popupwindow.CustomListPopupWindowBuilder
 
 class MainActivity : AppCompatActivity() {
@@ -14,7 +12,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var listPopupWindow: ListPopupWindow
     private lateinit var binding: ActivityMainBinding
-    private var list: MutableList<String> = mutableListOf()
+    private var list: MutableList<MyModel> = mutableListOf()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,16 +36,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initPopWindow() {
-        _adapter = CustomArrayAdapter(this, list, _selectItem)
+        _adapter = CustomArrayAdapter(this, list, _selectItem) {
+            _adapter.updateSelectItem(it.id)
+            listPopupWindow.dismiss()
+        }
+        _adapter.updateSelectItem(1)
         listPopupWindow = CustomListPopupWindowBuilder(this)
             .setList(list)
             .setAnchor(binding.btnShowPopup)
             .setBackgroundDrawableRes(R.drawable.round_background)
-            .setOnItemClickListener { _, _, position, _ ->
-                Toast.makeText(this, list[position] + " Clicked ", Toast.LENGTH_SHORT).show()
-                _adapter.updateSelectItem(position)
-                listPopupWindow.dismiss()
-            }
             .setAdapter(_adapter)
             .build()
 
@@ -74,10 +71,10 @@ class MainActivity : AppCompatActivity() {
 
 
         list = ArrayList()
-        list.add("Profile")
-        list.add("Settings")
-        list.add("Notification")
-        list.add("Logout")
+        list.add(MyModel(1, "Profile"))
+        list.add(MyModel(2, "Settings"))
+        list.add(MyModel(4, "Notification"))
+        list.add(MyModel(5, "Logout"))
 
 
     }
